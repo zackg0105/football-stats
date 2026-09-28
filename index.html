@@ -1380,23 +1380,25 @@ async function loadCloudData() {
 }
 
         // Init
-    currentSeasonPick = currentSeason();
-    document.getElementById('p-date').valueAsDate = new Date();
-    document.getElementById('t-date').valueAsDate = new Date();
-    document.getElementById('h-date').valueAsDate = new Date();
-    fillSeasonSelect();
-    showTab('dashboard');
-    renderAll();
-    renderProfile();
-  loadHighlights().then(() => {
-  loadCloudData().then(() => {
-    fillSeasonSelect();
-    renderAll();
-    renderProfile();
-  });
+currentSeasonPick = currentSeason();
+
+document.getElementById('p-date').valueAsDate = new Date();
+document.getElementById('t-date').valueAsDate = new Date();
+document.getElementById('h-date').valueAsDate = new Date();
+
+showTab('dashboard');
+
+fillSeasonSelect();
+renderAll();
+renderProfile();
+
+loadHighlights().then(() => {
+  fillSeasonSelect();
 });
 
-    // Register PWA service worker
+loadCloudData();
+
+// Register PWA service worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
