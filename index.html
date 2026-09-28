@@ -1396,7 +1396,11 @@ loadHighlights().then(() => {
   fillSeasonSelect();
 });
 
-loadCloudData();
+loadCloudData().then(() => {
+  fillSeasonSelect();
+  renderAll();
+  renderProfile();
+});
 
 // Register PWA service worker
     if ('serviceWorker' in navigator) {
