@@ -1320,7 +1320,31 @@ async function loadCloudData() {
   }
 
   const userId = userData.user.id;
+// Load profile from Supabase
+const { data: profileData, error: profileError } =
+  await supabaseClient
+    .from('profiles')
+    .select('*')
+    .eq('id', userId)
+    .maybeSingle();
 
+if (profileError) {
+  console.error('Profile cloud error:', profileError);
+} else if (profileData) {
+  profile.name = profileData.name || '';
+  profile.position = profileData.position || '';
+  profile.number = profileData.number || '';
+  profile.team = profileData.team || '';
+  profile.photo = profileData.photo_url || null;
+  profile.banner = profileData.banner_url || null;
+
+  localStorage.setItem(
+    'rt_profile',
+    JSON.stringify(profile)
+  );
+
+  console.log('Profile loaded from Supabase!');
+}
   // Load performance stats
   const { data: performanceData, error: performanceError } =
     await supabaseClient
