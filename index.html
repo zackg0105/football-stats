@@ -1362,6 +1362,7 @@ async function loadCloudData() {
     renderAll();
     renderProfile();
     loadHighlights().then(() => fillSeasonSelect());
+    loadCloudData();
 
     // Register PWA service worker
     if ('serviceWorker' in navigator) {
