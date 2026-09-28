@@ -803,23 +803,41 @@ let pressureChart = null;
 
 
       
-      const editId = document.getElementById('t-edit-id').value;
-      const gf = +document.getElementById('t-for').value;
-      const ga = +document.getElementById('t-against').value;
-      let result = document.getElementById('t-result').value;
-      if (gf > ga) result = 'W';
-      else if (gf < ga) result = 'L';
-      else result = 'T';
+    document.getElementById('form-team').addEventListener('submit', e => {
+  e.preventDefault();
 
-      const entry = {
-        id: editId ? +editId : Date.now(),
-        date: document.getElementById('t-date').value,
-        opponent: document.getElementById('t-opponent').value.trim(),
-        scoreFor: gf,
-        scoreAgainst: ga,
-        result,
-        notes: document.getElementById('t-notes').value.trim()
-      };
+  const editId = document.getElementById('t-edit-id').value;
+  const gf = +document.getElementById('t-for').value;
+  const ga = +document.getElementById('t-against').value;
+
+  let result = document.getElementById('t-result').value;
+
+  if (gf > ga) result = 'W';
+  else if (gf < ga) result = 'L';
+  else result = 'T';
+
+  const entry = {
+    id: editId ? +editId : Date.now(),
+    date: document.getElementById('t-date').value,
+    opponent: document.getElementById('t-opponent').value.trim(),
+    scoreFor: gf,
+    scoreAgainst: ga,
+    result,
+    notes: document.getElementById('t-notes').value.trim()
+  };
+
+  if (editId) {
+    const idx = teamMatches.findIndex(t => t.id === +editId);
+    if (idx !== -1) teamMatches[idx] = entry;
+  } else {
+    teamMatches.push(entry);
+  }
+
+  teamMatches.sort((a, b) => b.date.localeCompare(a.date));
+  save();
+  resetTeamForm();
+  showTab('team');
+});
       if (editId) {
         const idx = teamMatches.findIndex(t => t.id === +editId);
         if (idx !== -1) teamMatches[idx] = entry;
