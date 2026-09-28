@@ -1388,11 +1388,12 @@ async function loadCloudData() {
     showTab('dashboard');
     renderAll();
     renderProfile();
-    loadHighlights().then(async () => {
-  await loadCloudData();
-  fillSeasonSelect();
-  renderAll();
-  renderProfile();
+  loadHighlights().then(() => {
+  loadCloudData().then(() => {
+    fillSeasonSelect();
+    renderAll();
+    renderProfile();
+  });
 });
 
     // Register PWA service worker
